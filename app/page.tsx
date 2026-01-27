@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { isValidEmail, login } from '@/lib/auth';
@@ -38,11 +39,11 @@ export default function LoginPage() {
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl mb-4 shadow-lg">
-            <span className="text-4xl">🐵</span>
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-transparent rounded-2xl mb-4">
+            <Image src="/ladybug-icon.svg" alt="Ladybug" width={64} height={64} />
           </div>
-          <h1 className="text-2xl font-bold text-gray-900">Welcome to &apos;Monkey&apos;s Business</h1>
-          <p className="text-gray-600 mt-2">Sign in to access your dashboard</p>
+          <h1 className="text-2xl font-bold text-gray-900">Welcome to the Ladybug demo</h1>
+          <p className="text-gray-600 mt-2">Find issues in the demo app and submit them to Ladybug</p>
         </div>
 
         {/* Login Form */}
@@ -77,11 +78,6 @@ export default function LoginPage() {
             </button>
           </form>
 
-          <div className="mt-6 text-center">
-            <p className="text-sm text-gray-500">
-              Demo app for Ladybug support widget
-            </p>
-          </div>
         </div>
 
         {/* Footer */}
