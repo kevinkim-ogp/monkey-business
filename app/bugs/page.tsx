@@ -30,7 +30,7 @@ export default function BugsPage() {
     <div className="flex min-h-screen bg-gray-50">
       <Sidebar />
 
-      <main className="flex-1 p-8">
+      <main className="flex-1 p-8 pt-20 md:pt-8">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-gray-900">Active Bugs</h1>
@@ -81,7 +81,39 @@ export default function BugsPage() {
         {/* All Bugs Reference */}
         <div>
           <h2 className="text-lg font-semibold text-gray-900 mb-4">All Possible Bugs</h2>
-          <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+
+          {/* Mobile: Card layout */}
+          <div className="md:hidden grid gap-4">
+            {BUG_POOL.map(bug => {
+              const isActive = activeBugIds.includes(bug.id);
+              return (
+                <div
+                  key={bug.id}
+                  className={`bg-white rounded-xl border p-4 ${isActive ? 'border-red-200 bg-red-50' : 'border-gray-200'}`}
+                >
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm font-medium text-gray-900">#{bug.id} - {bug.name}</span>
+                    {isActive ? (
+                      <span className="px-2 py-1 text-xs font-medium bg-red-100 text-red-700 rounded-full">
+                        Active
+                      </span>
+                    ) : (
+                      <span className="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-600 rounded-full">
+                        Inactive
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-sm text-gray-600 mb-2">{bug.description}</p>
+                  <p className="text-xs text-gray-500">
+                    Location: <span className="font-medium capitalize">{bug.location}</span>
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Desktop: Table layout */}
+          <div className="hidden md:block bg-white rounded-xl border border-gray-200 overflow-hidden">
             <table className="w-full">
               <thead className="bg-gray-50 border-b border-gray-200">
                 <tr>

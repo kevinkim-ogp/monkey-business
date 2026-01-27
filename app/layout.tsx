@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "BuggyShop - Demo App",
+  title: "Monkey's Business - Demo App",
   description:
     "A demo e-commerce dashboard for testing the Ladybug support widget",
 };
