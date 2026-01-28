@@ -21,8 +21,6 @@ export function login(email: string): void {
 export function getUserEmail(): string | null {
   if (typeof window !== "undefined") {
     const userEmail = localStorage.getItem("userEmail");
-    // window.Ladybug?.unsetUser();
-    console.log("userEmail", userEmail);
     if (userEmail) {
       window.Ladybug?.setUser({ email: userEmail });
       return userEmail;

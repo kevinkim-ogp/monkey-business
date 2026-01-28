@@ -2,17 +2,12 @@
 
 import { useState, useEffect } from 'react';
 import { getUserEmail } from '@/lib/auth';
-import { isBugActive } from '@/lib/bugs';
 
 export default function SettingsForm() {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [notifications, setNotifications] = useState(true);
   const [saved, setSaved] = useState(false);
-
-  // Bug #5: Form Won't Submit - Shows persistent error
-  const bug5Active = isBugActive(5);
-  const [showError, setShowError] = useState(false);
 
   useEffect(() => {
     const userEmail = getUserEmail();
@@ -24,13 +19,6 @@ export default function SettingsForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (bug5Active) {
-      // Bug #5: Show persistent error
-      setShowError(true);
-      return;
-    }
-
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
   };
@@ -87,19 +75,6 @@ export default function SettingsForm() {
           />
         </button>
       </div>
-
-      {/* Error Message (Bug #5) */}
-      {showError && (
-        <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
-          <div className="flex items-center gap-2 text-red-700">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-            </svg>
-            <span className="font-medium">Error saving settings</span>
-          </div>
-          <p className="text-sm text-red-600 mt-1">Unable to save your changes. Please try again later.</p>
-        </div>
-      )}
 
       {/* Success Message */}
       {saved && (

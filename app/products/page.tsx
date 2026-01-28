@@ -20,7 +20,7 @@ export default function ProductsPage() {
   const router = useRouter();
   const [cart, setCart] = useState<CartItem[]>([]);
 
-  // Bug #7: Duplicate Items - Same product appears twice
+  // Bug #7: Repeated Product - All products show the same item
   const bug7Active = isBugActive(7);
 
   useEffect(() => {
@@ -65,9 +65,9 @@ export default function ProductsPage() {
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
   const totalPrice = cart.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
 
-  // If bug 7 is active, duplicate the first product
+  // If bug 7 is active, show the same product repeatedly
   const displayProducts = bug7Active
-    ? [productsData[0], ...productsData]
+    ? Array(productsData.length).fill(productsData[0])
     : productsData;
 
   return (

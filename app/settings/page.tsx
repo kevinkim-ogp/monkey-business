@@ -1,25 +1,19 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { isLoggedIn } from '@/lib/auth';
-import Sidebar from '@/components/Sidebar';
-import SettingsForm from '@/components/SettingsForm';
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { isLoggedIn } from "@/lib/auth";
+import Sidebar from "@/components/Sidebar";
+import SettingsForm from "@/components/SettingsForm";
 
 export default function SettingsPage() {
   const router = useRouter();
-  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
     if (!isLoggedIn()) {
-      router.push('/');
+      router.push("/");
     }
   }, [router]);
-
-  if (!mounted) {
-    return null;
-  }
 
   return (
     <div className="flex min-h-screen bg-gray-50">
@@ -34,7 +28,9 @@ export default function SettingsPage() {
 
         {/* Settings Card */}
         <div className="max-w-2xl bg-white rounded-xl border border-gray-200 shadow-sm p-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-6">Account Settings</h2>
+          <h2 className="text-lg font-semibold text-gray-900 mb-6">
+            Account Settings
+          </h2>
           <SettingsForm />
         </div>
       </main>

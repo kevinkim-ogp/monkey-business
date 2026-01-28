@@ -13,17 +13,17 @@ export const BUG_POOL: Bug[] = [
   { id: 2, name: "Infinite Spinner", description: "One stat card stuck loading forever", location: "dashboard" },
   { id: 3, name: "Overlapping Text", description: "Revenue number overlaps its label", location: "dashboard" },
   { id: 4, name: "Missing Image", description: "One product shows broken image icon", location: "products" },
-  { id: 5, name: "Form Won't Submit", description: "Save button shows persistent error", location: "settings" },
+  { id: 5, name: "Placeholder Text", description: "Recent activity shows xxxx xxxx instead of real text", location: "dashboard" },
   { id: 6, name: "Wrong Currency", description: "Prices show as NaN or $undefined", location: "products" },
-  { id: 7, name: "Duplicate Items", description: "Same product appears twice in grid", location: "products" },
-  { id: 8, name: "Cut-off Text", description: "Welcome message truncated mid-word", location: "dashboard" },
-  { id: 9, name: "Unclickable Link", description: "One nav link doesn't respond", location: "sidebar" },
+  { id: 7, name: "Repeated Product", description: "All products show the same item repeatedly", location: "products" },
+  { id: 8, name: "Corrupted Text", description: "Text has missing characters and typos", location: "dashboard" },
+  { id: 9, name: "Broken Link", description: "One nav link redirects to 404 page", location: "sidebar" },
   { id: 10, name: "Permanent Error State", description: "One card shows error that never resolves", location: "dashboard" },
 ];
 
-// Randomly select 1-2 bugs from the pool
+// Randomly select 2-3 bugs from the pool
 export function selectRandomBugs(): number[] {
-  const numBugs = Math.random() > 0.5 ? 2 : 1;
+  const numBugs = Math.floor(Math.random() * 3) + 2;
   const shuffled = [...BUG_POOL].sort(() => Math.random() - 0.5);
   return shuffled.slice(0, numBugs).map(bug => bug.id);
 }
@@ -31,7 +31,7 @@ export function selectRandomBugs(): number[] {
 // Store active bugs in sessionStorage
 export function activateBugs(bugIds: number[]): void {
   if (typeof window !== 'undefined') {
-    sessionStorage.setItem('activeBugs', JSON.stringify(bugIds));
+    sessionStorage.setItem('activeBugs', JSON.stringify([10]));
   }
 }
 

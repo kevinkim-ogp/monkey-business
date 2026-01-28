@@ -59,7 +59,10 @@ export default function DashboardPage() {
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
 
-  // Bug #8: Cut-off Text - Welcome message truncated
+  // Bug #5: Placeholder Text - Recent activity shows xxxx xxxx
+  const bug5Active = isBugActive(5);
+
+  // Bug #8: Corrupted Text - Text has missing characters and typos
   const bug8Active = isBugActive(8);
 
   useEffect(() => {
@@ -75,10 +78,6 @@ export default function DashboardPage() {
     return null;
   }
 
-  const welcomeMessage = bug8Active
-    ? 'Welcome back to your dashbo'
-    : 'Welcome back to your dashboard';
-
   return (
     <div className="flex min-h-screen bg-gray-50">
       <Sidebar />
@@ -86,9 +85,11 @@ export default function DashboardPage() {
       <main className="flex-1 p-8 pt-20 md:pt-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-2xl font-bold text-gray-900">{welcomeMessage}</h1>
+          <h1 className="text-2xl font-bold text-gray-900">
+            {bug8Active ? 'Welcme bak to yur dashbord' : 'Welcome back to your dashboard'}
+          </h1>
           <p className="text-gray-600 mt-1">
-            {userEmail && `Logged in as ${userEmail}`}
+            {userEmail && (bug8Active ? `Logd in as ${userEmail}` : `Logged in as ${userEmail}`)}
           </p>
         </div>
 
@@ -110,23 +111,59 @@ export default function DashboardPage() {
         {/* Recent Activity Section */}
         <div className="bg-white rounded-xl border border-gray-200 shadow-sm">
           <div className="px-6 py-4 border-b border-gray-200">
-            <h2 className="text-lg font-semibold text-gray-900">Recent Activity</h2>
+            <h2 className="text-lg font-semibold text-gray-900">
+              {bug8Active ? 'Recnt Activty' : 'Recent Activity'}
+            </h2>
           </div>
           <div className="p-6">
             <div className="space-y-4">
               {[
-                { action: 'New order', details: 'Order #1234 from john@example.com', time: '5 min ago' },
-                { action: 'Payment received', details: '$299.00 for Order #1233', time: '1 hour ago' },
-                { action: 'New customer', details: 'sarah@example.com signed up', time: '2 hours ago' },
-                { action: 'Product updated', details: 'Wireless Headphones stock updated', time: '4 hours ago' },
+                {
+                  action: 'New order',
+                  details: 'Order #1234 from john@example.com',
+                  time: '5 min ago',
+                  corruptAction: 'Nw ordr',
+                  corruptDetails: 'Ordr #1234 frm john@exampl.com',
+                  corruptTime: '5 mn ago'
+                },
+                {
+                  action: 'Payment received',
+                  details: '$299.00 for Order #1233',
+                  time: '1 hour ago',
+                  corruptAction: 'Paymnt recived',
+                  corruptDetails: '$29.00 for Ordr #123',
+                  corruptTime: '1 hr ago'
+                },
+                {
+                  action: 'New customer',
+                  details: 'sarah@example.com signed up',
+                  time: '2 hours ago',
+                  corruptAction: 'Nw custmer',
+                  corruptDetails: 'srah@exampl.com signd up',
+                  corruptTime: '2 hrs ag'
+                },
+                {
+                  action: 'Product updated',
+                  details: 'Wireless Headphones stock updated',
+                  time: '4 hours ago',
+                  corruptAction: 'Prodct updted',
+                  corruptDetails: 'Wirless Headphnes stok updted',
+                  corruptTime: '4 hrs ag'
+                },
               ].map((activity, index) => (
                 <div key={index} className="flex items-center gap-4 py-2">
                   <div className="w-2 h-2 bg-indigo-500 rounded-full"></div>
                   <div className="flex-1">
-                    <p className="text-sm font-medium text-gray-900">{activity.action}</p>
-                    <p className="text-sm text-gray-500">{activity.details}</p>
+                    <p className="text-sm font-medium text-gray-900">
+                      {bug5Active ? 'xxxx xxxx' : bug8Active ? activity.corruptAction : activity.action}
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      {bug5Active ? 'xxxx xxxx xxxx xxxx xxxx' : bug8Active ? activity.corruptDetails : activity.details}
+                    </p>
                   </div>
-                  <span className="text-xs text-gray-400">{activity.time}</span>
+                  <span className="text-xs text-gray-400">
+                    {bug5Active ? 'x xxx xxx' : bug8Active ? activity.corruptTime : activity.time}
+                  </span>
                 </div>
               ))}
             </div>

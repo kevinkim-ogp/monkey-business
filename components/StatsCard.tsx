@@ -18,8 +18,29 @@ export default function StatsCard({ title, value, change, changeType, icon, card
   // Bug #3: Overlapping Text - Revenue card (index 1) has overlapping text
   const bug3Active = isBugActive(3) && cardIndex === 1;
 
+  // Bug #8: Corrupted Text - Text has missing characters and typos
+  const bug8Active = isBugActive(8);
+
   // Bug #10: Permanent Error State - Third card shows error
   const bug10Active = isBugActive(10) && cardIndex === 2;
+
+  // Corrupt text for bug #8
+  const corruptedTitles: { [key: string]: string } = {
+    'Total Orders': 'Totl Ordrs',
+    'Revenue': 'Revnue',
+    'Customers': 'Custmers',
+    'Conversion Rate': 'Conversn Rat'
+  };
+
+  const corruptedValues: { [key: string]: string } = {
+    '1,234': '1,23',
+    '$48,352': '$48,35',
+    '892': '89',
+    '3.2%': '3.%'
+  };
+
+  const displayTitle = bug8Active ? (corruptedTitles[title] || title) : title;
+  const displayValue = bug8Active ? (corruptedValues[value] || value) : value;
 
   if (bug10Active) {
     return (
@@ -48,7 +69,7 @@ export default function StatsCard({ title, value, change, changeType, icon, card
         <div className="flex items-center justify-center py-4">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
         </div>
-        <p className="text-sm text-gray-500">{title}</p>
+        <p className="text-sm text-gray-500">{displayTitle}</p>
       </div>
     );
   }
@@ -66,13 +87,13 @@ export default function StatsCard({ title, value, change, changeType, icon, card
       <div className={bug3Active ? 'relative' : ''}>
         {bug3Active ? (
           <>
-            <div className="text-2xl font-bold text-gray-900 absolute top-0 left-0">{value}</div>
-            <p className="text-sm text-gray-500 mt-0">{title}</p>
+            <div className="text-2xl font-bold text-gray-900 absolute top-0 left-0">{displayValue}</div>
+            <p className="text-sm text-gray-500 mt-0">{displayTitle}</p>
           </>
         ) : (
           <>
-            <div className="text-2xl font-bold text-gray-900">{value}</div>
-            <p className="text-sm text-gray-500 mt-1">{title}</p>
+            <div className="text-2xl font-bold text-gray-900">{displayValue}</div>
+            <p className="text-sm text-gray-500 mt-1">{displayTitle}</p>
           </>
         )}
       </div>

@@ -57,7 +57,7 @@ export default function Sidebar() {
   const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // Bug #9: Unclickable Link - Products link doesn't respond
+  // Bug #9: Broken Link - Products link redirects to 404
   const bug9Active = isBugActive(9);
 
   const handleLogout = () => {
@@ -98,11 +98,13 @@ export default function Sidebar() {
           const isBuggyLink = bug9Active && item.href === '/products';
 
           if (isBuggyLink) {
-            // Bug #9: Render as a div that looks like a link but doesn't navigate
+            // Bug #9: Redirect to not-found page
             return (
-              <div
+              <Link
                 key={item.name}
-                className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium cursor-pointer transition-colors ${
+                href="/not-found"
+                onClick={handleLinkClick}
+                className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                   isActive
                     ? 'bg-indigo-50 text-indigo-700'
                     : 'text-gray-700 hover:bg-gray-100'
@@ -110,7 +112,7 @@ export default function Sidebar() {
               >
                 {item.icon}
                 {item.name}
-              </div>
+              </Link>
             );
           }
 
