@@ -31,7 +31,7 @@ export function selectRandomBugs(): number[] {
 // Store active bugs in sessionStorage
 export function activateBugs(bugIds: number[]): void {
   if (typeof window !== 'undefined') {
-    sessionStorage.setItem('activeBugs', JSON.stringify([10]));
+    sessionStorage.setItem('activeBugs', JSON.stringify([bugIds]));
   }
 }
 
