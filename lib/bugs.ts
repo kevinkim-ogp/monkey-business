@@ -21,11 +21,30 @@ export const BUG_POOL: Bug[] = [
   { id: 10, name: "Permanent Error State", description: "One card shows error that never resolves", location: "dashboard" },
 ];
 
-// Randomly select 2-3 bugs from the pool
+// Randomly select 1-3 bugs from the pool, ensuring at least one is from the dashboard
 export function selectRandomBugs(): number[] {
-  const numBugs = Math.floor(Math.random() * 3) + 2;
-  const shuffled = [...BUG_POOL].sort(() => Math.random() - 0.5);
-  return shuffled.slice(0, numBugs).map(bug => bug.id);
+  const dashboardBugs = BUG_POOL.filter(bug => bug.location === 'dashboard');
+  const otherBugs = BUG_POOL.filter(bug => bug.location !== 'dashboard');
+
+  // Fallback: if there are no dashboard bugs defined, just select 1-3 random bugs
+  if (dashboardBugs.length === 0) {
+    const fallbackNumBugs = Math.floor(Math.random() * 3) + 1;
+    const fallbackShuffled = [...BUG_POOL].sort(() => Math.random() - 0.5);
+    return fallbackShuffled.slice(0, fallbackNumBugs).map(bug => bug.id);
+  }
+
+  const totalBugs = Math.floor(Math.random() * 3) + 1; // 1-3 total
+
+  // Always include at least one dashboard bug
+  const chosenDashboardBug =
+    dashboardBugs[Math.floor(Math.random() * dashboardBugs.length)];
+
+  const remainingSlots = Math.min(totalBugs - 1, otherBugs.length);
+  const shuffledOthers = [...otherBugs].sort(() => Math.random() - 0.5);
+
+  const selectedBugs = [chosenDashboardBug, ...shuffledOthers.slice(0, Math.max(0, remainingSlots))];
+
+  return selectedBugs.map(bug => bug.id);
 }
 
 // Store active bugs in sessionStorage
