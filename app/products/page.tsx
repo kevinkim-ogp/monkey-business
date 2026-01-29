@@ -19,6 +19,7 @@ const productsData: Product[] = [
 export default function ProductsPage() {
   const router = useRouter();
   const [cart, setCart] = useState<CartItem[]>([]);
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   // Bug #7: Repeated Product - All products show the same item
   const bug7Active = isBugActive(7);
@@ -84,7 +85,10 @@ export default function ProductsPage() {
 
           {/* Cart Icon with Hover Tooltip */}
           <div className="relative group">
-            <button className="relative p-3 bg-white border border-gray-200 rounded-xl hover:border-indigo-300 hover:shadow-md transition-all">
+            <button
+              onClick={() => setIsCartOpen(!isCartOpen)}
+              className="relative p-3 bg-white border border-gray-200 rounded-xl hover:border-indigo-300 hover:shadow-md transition-all"
+            >
               <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
               </svg>
@@ -96,7 +100,7 @@ export default function ProductsPage() {
             </button>
 
             {/* Hover Tooltip */}
-            <div className="absolute right-0 top-full mt-2 w-80 bg-white rounded-xl border border-gray-200 shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+            <div className={`absolute right-0 top-full mt-2 w-80 bg-white rounded-xl border border-gray-200 shadow-lg transition-all duration-200 z-50 ${isCartOpen ? 'opacity-100 visible' : 'opacity-0 invisible group-hover:opacity-100 group-hover:visible'}`}>
               <div className="px-4 py-3 border-b border-gray-200">
                 <h3 className="font-semibold text-gray-900">
                   Cart {totalItems > 0 && <span className="text-indigo-600">({totalItems})</span>}
