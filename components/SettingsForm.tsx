@@ -1,21 +1,16 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { getUserEmail } from '@/lib/auth';
 
 export default function SettingsForm() {
-  const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
+  const [email, setEmail] = useState(() => getUserEmail() || '');
+  const [name, setName] = useState(() => {
+    const userEmail = getUserEmail();
+    return userEmail ? userEmail.split('@')[0] : '';
+  });
   const [notifications, setNotifications] = useState(true);
   const [saved, setSaved] = useState(false);
-
-  useEffect(() => {
-    const userEmail = getUserEmail();
-    if (userEmail) {
-      setEmail(userEmail);
-      setName(userEmail.split('@')[0]);
-    }
-  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,6 +48,16 @@ export default function SettingsForm() {
           className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-colors"
           placeholder="you@example.com"
         />
+      </div>
+
+      {/* Your secret Field */}
+      <div>
+        <label htmlFor="secret" className="block text-sm font-medium text-gray-700 mb-2">
+          API Key
+        </label>
+        <div
+          className="ladybug-mask w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-colors text-base"
+        >example_api_key</div>
       </div>
 
       {/* Notifications Toggle */}
